@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".root", ".root", "{3CBE819F-8E22-454B-BF01-DD96FFC305F1}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		.github\workflows\cd-nuget.yml = .github\workflows\cd-nuget.yml
+		Directory.Build.props = Directory.Build.props
+		Directory.Packages.props = Directory.Packages.props
+		.github\FUNDING.yml = .github\FUNDING.yml
+		global.json = global.json
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{ECFCA54A-2B35-4B30-81C9-57D50984E130}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PodNet.Boxify.Svg", "src\Boxify.Svg\PodNet.Boxify.Svg.csproj", "{9FB7A7B8-6F8B-48D4-A602-9B58B6B537C7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9FB7A7B8-6F8B-48D4-A602-9B58B6B537C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FB7A7B8-6F8B-48D4-A602-9B58B6B537C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FB7A7B8-6F8B-48D4-A602-9B58B6B537C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FB7A7B8-6F8B-48D4-A602-9B58B6B537C7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9FB7A7B8-6F8B-48D4-A602-9B58B6B537C7} = {ECFCA54A-2B35-4B30-81C9-57D50984E130}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {099F2425-924C-4626-91B8-3025DE1D4B3D}
+	EndGlobalSection
+EndGlobal

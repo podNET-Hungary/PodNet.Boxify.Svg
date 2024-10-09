@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<Description>An extension for PodNet.Boxify (and PodNet.Boxify.Bmp) that converts an SVG image to a rasterized format to be used for drawing box-drawings of images to text, files or terminals</Description>
+		<PackageTags>box, block, art, unicode, ascii, graphics, art, terminal, console, bmp, bitmap, svg, vector, vectorgraphics, PodNet, awesome</PackageTags>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="PodNet.NuGet.Core" PrivateAssets="all" />
+		<PackageReference Include="PodNet.Boxify.Bmp" />
+		<PackageReference Include="PolySharp" PrivateAssets="all" />
+		<PackageReference Include="Svg" />
+	</ItemGroup>
+</Project>
