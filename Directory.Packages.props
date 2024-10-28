@@ -3,9 +3,12 @@
 		<ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageVersion Include="PodNet.Boxify.Bmp" Version="1.0.0" />
+		<PackageVersion Include="ExCSS" Version="4.3.0" />
+		<PackageVersion Include="PodNet.Boxify" Version="1.0.0" />
 		<PackageVersion Include="PodNet.NuGet.Core" Version="1.2.2" />
 		<PackageVersion Include="PolySharp" Version="1.14.1" />
-		<PackageVersion Include="Svg" Version="3.4.7" />
+		<PackageVersion Include="Svg.Skia" Version="2.0.0.1" />
+		<PackageVersion Include="System.Numerics.Vectors" Version="4.5.0" />
+		<PackageVersion Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
 	</ItemGroup>
 </Project>

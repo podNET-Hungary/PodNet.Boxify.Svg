@@ -1,5 +1,6 @@
-﻿using PodNet.Boxify.Bmp;
+﻿using SkiaSharp;
 using Svg;
+using Svg.Skia;
 using System.Drawing;
 
 namespace PodNet.Boxify.Svg;
@@ -11,10 +12,9 @@ namespace PodNet.Boxify.Svg;
 /// <remarks>
 /// <list type="bullet">
 /// <item>Note that this is not a framework component for Boxify but a convenience class to be invoked directly by user code.</item>
-/// <item>Also do note that converting a bitmap to the corresponding box-art doesn't do resizing/aspect ratio conversion/pixel
-/// ratio conversion on its own. You can use the <a href="https://www.nuget.org/packages/Svg">Svg</a> package to do image
-/// manipulation on SVGs (besides this class), or some functions from <a href="https://www.nuget.org/packages/System.Drawing.Common">
-/// System.Drawing.Common</a> as they are transiently referenced through the current package.</item>
+/// <item>Converting a bitmap to the corresponding box-art doesn't do any positioning/resizing/aspect ratio conversion
+/// on its own (besides by default, accounting for the A/R of the box characters). You can inherit from this class and do 
+/// pre-processing in <see cref="FixupSvg(SvgDocument)"/>.</item>
 /// </list>
 /// </remarks>
 public class SvgConverter
@@ -84,13 +84,13 @@ public class SvgConverter
     /// <param name="svgDocument">The document to fix up.</param>
     protected virtual void FixupSvg(SvgDocument svgDocument)
     {
-        foreach (var element in svgDocument.Descendants())
+        /*foreach (var element in svgDocument.Descendants())
         {
             if (element.Fill == SvgPaintServer.NotSet)
                 element.Fill = White;
             if (element.Stroke == SvgPaintServer.NotSet)
                 element.Stroke = White;
-        }
+        }*/
     }
 
     /// <summary>
@@ -110,24 +110,31 @@ public class SvgConverter
             throw new ArgumentOutOfRangeException(nameof(scaleX), scaleX, "Value should be positive.");
         if (scaleY <= 0f)
             throw new ArgumentOutOfRangeException(nameof(scaleY), scaleY, "Value should be positive.");
-        var (scaledWidth, scaledHeight) = (svgDocument.Width * scaleX, svgDocument.Height * scaleY);
+        var (scaledWidth, scaledHeight) = (svgDocument.Width.Value * scaleX, svgDocument.Height.Value * scaleY);
         var aspectRatio = scaledWidth / scaledHeight;
         var (w, h) = (maxWidth ?? (int)scaledWidth, maxHeight ?? (int)scaledHeight);
         return (w / aspectRatio <= h) ? (w, (int)(w / aspectRatio)) : ((int)(h * aspectRatio), h);
     }
 
-    /// <summary>Rasterizes the given <paramref name="svgDocument"/> to a <see cref="BitmapSource"/>.</summary>
+    /// <summary>Rasterizes the given <paramref name="svgDocument"/> to an <see cref="SKBitmap"/>, and wraps it in an <see cref="IBoxBitmapSource"/>.</summary>
     /// <remarks>The default implementation calls <see cref="GetTargetDimensions(SvgDocument, int?, int?, float, float) "/>
-    /// and <see cref="SvgDocument.Draw(int, int)"/>.</remarks>
+    /// to determine the sizing of the bitmap.</remarks>
     /// <param name="svgDocument">The image to rasterize.</param>
     /// <param name="maxWidth">The max width to fit the resulting image into. Can be null if ignored.</param>
     /// <param name="maxHeight">The max height to fit the resulting image into. Can be null if ignored.</param>
     /// <param name="scaleX">Scales the document on the X axis. The original aspect ratio is skewed on the X axis if X != 1f.</param>
     /// <param name="scaleY">Scales the document on the Y axis. The original aspect ratio is skewed on the Y axis if Y != 1f.</param>
-    /// <returns>The rasterized image, wrapped in a <see cref="BitmapSource"/>.</returns>
+    /// <returns>The rasterized image.</returns>
     protected virtual IBoxBitmapSource RasterizeSvg(SvgDocument svgDocument, int? maxWidth, int? maxHeight, float scaleX, float scaleY)
     {
         var (width, height) = GetTargetDimensions(svgDocument, maxWidth, maxHeight, scaleX, scaleY);
-        return new BitmapSource(svgDocument.Draw(width, height));
+        var bitmap = new SKBitmap(width, height);
+        using var canvas = new SKCanvas(bitmap);
+        using var svg = SKSvg.CreateFromSvgDocument(svgDocument);
+        if (svg.Picture is null)
+            throw new InvalidOperationException($"{nameof(svg.Picture)} was null.");
+        var matrix = SKMatrix.CreateScale(width / svg.Picture.CullRect.Width, height / svg.Picture.CullRect.Height);
+        canvas.DrawPicture(svg.Picture, ref matrix);
+        return new SKBitmapSource(bitmap);
     }
 }
