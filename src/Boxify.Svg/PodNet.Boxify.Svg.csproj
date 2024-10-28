@@ -5,14 +5,9 @@
 		<PackageTags>box, block, art, unicode, ascii, graphics, art, terminal, console, bmp, bitmap, svg, vector, vectorgraphics, PodNet, awesome</PackageTags>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="ExCSS" />
 		<PackageReference Include="PodNet.Boxify" />
 		<PackageReference Include="PodNet.NuGet.Core" PrivateAssets="all" />
 		<PackageReference Include="PolySharp" PrivateAssets="all" />
 		<PackageReference Include="Svg.Skia" />
-
-		<!-- Pulled up updated transient dependencies -->
-		<PackageReference Include="System.Numerics.Vectors" />
-		<PackageReference Include="System.Runtime.CompilerServices.Unsafe" />
 	</ItemGroup>
 </Project>
